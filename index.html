@@ -1,0 +1,1905 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Aorue — Developer Portfolio</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+    background:#050505;
+}
+
+body{
+    background:#050505;
+    color:#fff;
+    font-family:"DM Sans",sans-serif;
+    overflow-x:hidden;
+}
+
+#loader{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:#030303;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    transition:opacity 1s cubic-bezier(.77,0,.18,1),visibility 1s;
+}
+
+#loader.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.loader-small{
+    font-family:"DM Mono",monospace;
+    font-size:11px;
+    letter-spacing:5px;
+    opacity:.45;
+    margin-bottom:25px;
+}
+
+.loader-title{
+    font-size:clamp(45px,8vw,110px);
+    font-weight:700;
+    letter-spacing:-6px;
+}
+
+.loader-line{
+    width:0;
+    height:1px;
+    background:#fff;
+    margin-top:30px;
+    animation:loadLine 1.8s cubic-bezier(.77,0,.18,1) forwards;
+}
+
+@keyframes loadLine{
+    to{width:220px;}
+}
+
+#three-bg{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+}
+
+.noise{
+    position:fixed;
+    inset:0;
+    z-index:50;
+    pointer-events:none;
+    opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+}
+
+.vignette{
+    position:fixed;
+    inset:0;
+    z-index:40;
+    pointer-events:none;
+    background:radial-gradient(circle at center,transparent 30%,rgba(0,0,0,.65) 100%);
+}
+
+.cursor-glow{
+    position:fixed;
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:2;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle,rgba(255,255,255,.08),transparent 65%);
+    mix-blend-mode:screen;
+}
+
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:100;
+    padding:28px 40px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    mix-blend-mode:difference;
+}
+
+.logo{
+    font-family:"DM Mono",monospace;
+    font-size:13px;
+    letter-spacing:3px;
+}
+
+.nav-right{
+    display:flex;
+    gap:25px;
+    align-items:center;
+}
+
+.nav-status{
+    font-family:"DM Mono",monospace;
+    font-size:10px;
+    letter-spacing:2px;
+    opacity:.6;
+}
+
+.status-dot{
+    display:inline-block;
+    width:6px;
+    height:6px;
+    background:#fff;
+    border-radius:50%;
+    margin-right:8px;
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+    0%,100%{
+        opacity:.3;
+        transform:scale(.8);
+    }
+    50%{
+        opacity:1;
+        transform:scale(1.2);
+    }
+}
+
+section{
+    position:relative;
+    z-index:5;
+    min-height:100vh;
+}
+
+.hero{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:100px 30px;
+}
+
+.hero-inner{
+    max-width:1250px;
+}
+
+.eyebrow{
+    font-family:"DM Mono",monospace;
+    font-size:11px;
+    letter-spacing:5px;
+    margin-bottom:35px;
+    transform:translateY(30px);
+    opacity:0;
+    animation:heroUp 1.2s 1.7s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+.hero-title{
+    font-size:clamp(70px,15vw,210px);
+    line-height:.76;
+    letter-spacing:-11px;
+    font-weight:700;
+    overflow:hidden;
+}
+
+.hero-title span{
+    display:block;
+    transform:translateY(110%);
+    animation:titleIn 1.5s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+.hero-title span:nth-child(1){animation-delay:1.5s;}
+.hero-title span:nth-child(2){animation-delay:1.65s;}
+.hero-title span:nth-child(3){animation-delay:1.8s;}
+
+.hero-title .outline{
+    color:transparent;
+    -webkit-text-stroke:1px rgba(255,255,255,.8);
+}
+
+@keyframes titleIn{
+    to{transform:translateY(0);}
+}
+
+.hero-description{
+    max-width:650px;
+    margin:50px auto 0;
+    font-size:15px;
+    line-height:1.8;
+    color:rgba(255,255,255,.55);
+    transform:translateY(30px);
+    opacity:0;
+    animation:heroUp 1s 2.2s forwards;
+}
+
+@keyframes heroUp{
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
+}
+
+.scroll-hint{
+    position:absolute;
+    bottom:35px;
+    left:50%;
+    transform:translateX(-50%);
+    font-family:"DM Mono",monospace;
+    font-size:9px;
+    letter-spacing:3px;
+    opacity:.4;
+}
+
+.scroll-line{
+    width:1px;
+    height:55px;
+    background:linear-gradient(to bottom,#fff,transparent);
+    margin:15px auto 0;
+    animation:scrollLine 1.8s infinite;
+}
+
+@keyframes scrollLine{
+    0%{
+        transform:scaleY(0);
+        transform-origin:top;
+    }
+    50%{
+        transform:scaleY(1);
+        transform-origin:top;
+    }
+    51%{
+        transform-origin:bottom;
+    }
+    100%{
+        transform:scaleY(0);
+        transform-origin:bottom;
+    }
+}
+
+.about{
+    display:flex;
+    align-items:center;
+    padding:120px 8vw;
+}
+
+.about-grid{
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10vw;
+    align-items:center;
+}
+
+.section-number{
+    font-family:"DM Mono",monospace;
+    font-size:11px;
+    letter-spacing:3px;
+    opacity:.35;
+    margin-bottom:30px;
+}
+
+.about-heading{
+    font-size:clamp(45px,7vw,100px);
+    line-height:.9;
+    letter-spacing:-5px;
+}
+
+.about-heading em{
+    color:#777;
+    font-style:normal;
+}
+
+.about-copy{
+    color:rgba(255,255,255,.48);
+    line-height:1.9;
+    font-size:15px;
+    max-width:500px;
+}
+
+.reactor{
+    width:min(430px,70vw);
+    aspect-ratio:1;
+    position:relative;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.reactor-ring{
+    position:absolute;
+    inset:8%;
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:50%;
+    animation:rotate 15s linear infinite;
+}
+
+.reactor-ring:nth-child(2){
+    inset:18%;
+    border-style:dashed;
+    animation-duration:9s;
+    animation-direction:reverse;
+}
+
+.reactor-ring:nth-child(3){
+    inset:31%;
+    border-color:rgba(255,255,255,.35);
+    animation-duration:5s;
+}
+
+.reactor-core{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:radial-gradient(circle,#fff 0%,#aaa 5%,#333 20%,#080808 65%);
+    box-shadow:0 0 35px rgba(255,255,255,.25),0 0 100px rgba(255,255,255,.08);
+    animation:corePulse 2.5s ease-in-out infinite;
+}
+
+@keyframes rotate{
+    to{transform:rotate(360deg);}
+}
+
+@keyframes corePulse{
+    0%,100%{
+        transform:scale(.9);
+        filter:brightness(.8);
+    }
+    50%{
+        transform:scale(1.12);
+        filter:brightness(1.4);
+    }
+}
+
+.services{
+    padding:140px 6vw;
+}
+
+.services-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:80px;
+}
+
+.services-title{
+    font-size:clamp(55px,9vw,130px);
+    line-height:.8;
+    letter-spacing:-7px;
+}
+
+.services-title span{
+    color:#666;
+}
+
+.services-count{
+    font-family:"DM Mono",monospace;
+    font-size:10px;
+    opacity:.4;
+}
+
+.services-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+    perspective:1500px;
+}
+
+.service-card{
+    min-height:430px;
+    position:relative;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.12);
+    background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.01));
+    backdrop-filter:blur(15px);
+    padding:45px;
+    transform-style:preserve-3d;
+    transition:transform .5s cubic-bezier(.16,1,.3,1),border-color .4s,background .4s;
+    cursor:pointer;
+}
+
+.service-card:hover{
+    border-color:rgba(255,255,255,.4);
+    background:rgba(255,255,255,.075);
+}
+
+.service-card::before{
+    content:"";
+    position:absolute;
+    width:250px;
+    height:250px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,.13),transparent 70%);
+    top:var(--my,50%);
+    left:var(--mx,50%);
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .3s;
+}
+
+.service-card:hover::before{
+    opacity:1;
+}
+
+.card-number{
+    font-family:"DM Mono",monospace;
+    font-size:10px;
+    opacity:.35;
+    letter-spacing:2px;
+}
+
+.card-icon{
+    position:absolute;
+    right:40px;
+    top:40px;
+    width:55px;
+    height:55px;
+    border:1px solid rgba(255,255,255,.2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:"DM Mono",monospace;
+    font-size:12px;
+    transform:translateZ(50px);
+}
+
+.card-content{
+    position:absolute;
+    left:45px;
+    right:45px;
+    bottom:45px;
+    transform:translateZ(50px);
+}
+
+.card-title{
+    font-size:clamp(30px,4vw,55px);
+    letter-spacing:-2px;
+    margin-bottom:18px;
+}
+
+.card-description{
+    color:rgba(255,255,255,.45);
+    font-size:13px;
+    line-height:1.7;
+    max-width:430px;
+}
+
+.card-arrow{
+    margin-top:30px;
+    font-family:"DM Mono",monospace;
+    font-size:10px;
+    letter-spacing:2px;
+    opacity:.5;
+    transition:.4s;
+}
+
+.service-card:hover .card-arrow{
+    opacity:1;
+    transform:translateX(10px);
+}
+
+.service-card.featured{
+    grid-column:span 2;
+    min-height:500px;
+    background:radial-gradient(circle at 80% 20%,rgba(255,255,255,.08),transparent 35%),linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.015));
+}
+
+.featured .card-title{
+    font-size:clamp(50px,8vw,110px);
+    line-height:.85;
+}
+
+.orbit{
+    position:absolute;
+    width:300px;
+    height:300px;
+    right:10%;
+    top:50%;
+    transform:translateY(-50%);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:50%;
+    animation:orbit 12s linear infinite;
+}
+
+.orbit::before,
+.orbit::after{
+    content:"";
+    position:absolute;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 0 20px #fff;
+}
+
+.orbit::before{
+    top:-3px;
+    left:50%;
+}
+
+.orbit::after{
+    bottom:-3px;
+    left:50%;
+}
+
+@keyframes orbit{
+    to{
+        transform:translateY(-50%) rotate(360deg);
+    }
+}
+
+.experience{
+    padding:160px 8vw;
+}
+
+.experience-title{
+    font-size:clamp(50px,8vw,120px);
+    letter-spacing:-6px;
+    margin-bottom:100px;
+}
+
+.experience-list{
+    border-top:1px solid rgba(255,255,255,.15);
+}
+
+.experience-item{
+    min-height:180px;
+    border-bottom:1px solid rgba(255,255,255,.12);
+    display:grid;
+    grid-template-columns:100px 1fr 1fr;
+    align-items:center;
+    gap:40px;
+    transition:.5s;
+}
+
+.experience-item:hover{
+    padding-left:30px;
+    background:rgba(255,255,255,.025);
+}
+
+.experience-num{
+    font-family:"DM Mono",monospace;
+    font-size:12px;
+    opacity:.35;
+}
+
+.experience-name{
+    font-size:clamp(28px,4vw,55px);
+    letter-spacing:-2px;
+}
+
+.experience-text{
+    color:rgba(255,255,255,.4);
+    line-height:1.7;
+    font-size:13px;
+    max-width:430px;
+}
+
+.stack{
+    padding:120px 6vw;
+}
+
+.stack-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:60px;
+}
+
+.stack-title{
+    font-size:clamp(50px,8vw,115px);
+    letter-spacing:-6px;
+    line-height:.85;
+}
+
+.stack-title span{
+    color:#555;
+}
+
+.stack-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.stack-item{
+    min-height:170px;
+    border:1px solid rgba(255,255,255,.1);
+    padding:30px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    transition:.4s;
+    background:rgba(255,255,255,.015);
+}
+
+.stack-item:hover{
+    border-color:rgba(255,255,255,.35);
+    transform:translateY(-5px);
+}
+
+.stack-index{
+    font-family:"DM Mono",monospace;
+    font-size:10px;
+    opacity:.3;
+}
+
+.stack-name{
+    font-size:25px;
+    letter-spacing:-1px;
+}
+
+.stack-description{
+    color:rgba(255,255,255,.38);
+    font-size:12px;
+}
+
+.cta{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:100px 30px;
+}
+
+.cta-title{
+    font-size:clamp(60px,13vw,190px);
+    line-height:.78;
+    letter-spacing:-10px;
+}
+
+.cta-title span{
+    display:block;
+}
+
+.cta-title .dim{
+    color:#555;
+}
+
+.cta-button{
+    display:inline-flex;
+    margin-top:70px;
+    padding:20px 35px;
+    border:1px solid rgba(255,255,255,.3);
+    color:#fff;
+    text-decoration:none;
+    font-family:"DM Mono",monospace;
+    font-size:11px;
+    letter-spacing:2px;
+    position:relative;
+    overflow:hidden;
+    transition:.4s;
+}
+
+.cta-button::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:#fff;
+    transform:translateY(100%);
+    transition:.4s cubic-bezier(.16,1,.3,1);
+    z-index:-1;
+}
+
+.cta-button:hover{
+    color:#000;
+}
+
+.cta-button:hover::before{
+    transform:translateY(0);
+}
+
+footer{
+    padding:30px 40px;
+    border-top:1px solid rgba(255,255,255,.1);
+    display:flex;
+    justify-content:space-between;
+    font-family:"DM Mono",monospace;
+    font-size:9px;
+    letter-spacing:2px;
+    opacity:.4;
+}
+
+.progress{
+    position:fixed;
+    right:20px;
+    top:50%;
+    transform:translateY(-50%);
+    width:2px;
+    height:100px;
+    background:rgba(255,255,255,.1);
+    z-index:200;
+}
+
+.progress-fill{
+    width:100%;
+    height:0%;
+    background:#fff;
+}
+
+@media(max-width:800px){
+
+    nav{
+        padding:22px;
+    }
+
+    .nav-status{
+        display:none;
+    }
+
+    .hero-title{
+        letter-spacing:-5px;
+    }
+
+    .about-grid{
+        grid-template-columns:1fr;
+        gap:70px;
+    }
+
+    .reactor{
+        width:260px;
+    }
+
+    .services{
+        padding:100px 20px;
+    }
+
+    .services-header{
+        display:block;
+    }
+
+    .services-count{
+        margin-top:25px;
+    }
+
+    .services-grid{
+        grid-template-columns:1fr;
+    }
+
+    .service-card,
+    .service-card.featured{
+        grid-column:span 1;
+        min-height:390px;
+        padding:30px;
+    }
+
+    .featured .card-title{
+        font-size:50px;
+    }
+
+    .orbit{
+        width:180px;
+        height:180px;
+        right:-30px;
+        opacity:.5;
+    }
+
+    .card-content{
+        left:30px;
+        right:30px;
+        bottom:30px;
+    }
+
+    .experience{
+        padding:100px 20px;
+    }
+
+    .experience-item{
+        grid-template-columns:50px 1fr;
+        gap:15px;
+        padding:30px 0;
+    }
+
+    .experience-text{
+        grid-column:2;
+    }
+
+    .stack{
+        padding:100px 20px;
+    }
+
+    .stack-header{
+        display:block;
+    }
+
+    .stack-grid{
+        grid-template-columns:1fr;
+    }
+
+    footer{
+        padding:25px 20px;
+    }
+
+    .cursor-glow{
+        display:none;
+    }
+
+    .progress{
+        right:8px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+        scroll-behavior:auto !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="loader">
+    <div class="loader-small">INITIALIZING DEVELOPER SYSTEM</div>
+    <div class="loader-title">AORUE.DEV</div>
+    <div class="loader-line"></div>
+</div>
+
+<div id="three-bg"></div>
+
+<div class="noise"></div>
+<div class="vignette"></div>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<nav>
+
+    <div class="logo">
+        AORUE.DEV
+    </div>
+
+    <div class="nav-right">
+
+        <div class="nav-status">
+            <span class="status-dot"></span>
+            AVAILABLE FOR BUILD
+        </div>
+
+        <div class="nav-status">
+            SCROLL / EXPLORE
+        </div>
+
+    </div>
+
+</nav>
+
+<div class="progress">
+    <div class="progress-fill" id="progressFill"></div>
+</div>
+
+
+<section class="hero">
+
+    <div class="hero-inner">
+
+        <div class="eyebrow">
+            AORUE / SOFTWARE DEVELOPER
+        </div>
+
+        <h1 class="hero-title">
+            <span>BUILD</span>
+            <span class="outline">BEYOND</span>
+            <span>LIMITS.</span>
+        </h1>
+
+        <p class="hero-description">
+            Aorue is a developer focused on building digital products
+            across the web, desktop, mobile and Discord ecosystems —
+            from interactive websites and powerful dashboards to
+            custom software and automated systems.
+        </p>
+
+    </div>
+
+    <div class="scroll-hint">
+        SCROLL TO EXPLORE
+        <div class="scroll-line"></div>
+    </div>
+
+</section>
+
+
+<section class="about">
+
+    <div class="about-grid">
+
+        <div>
+
+            <div class="section-number">
+                001 — THE DEVELOPER
+            </div>
+
+            <h2 class="about-heading">
+                ONE<br>
+                DEVELOPER.<br>
+                <em>MANY SYSTEMS.</em>
+            </h2>
+
+            <p class="about-copy" style="margin-top:40px;">
+                Aorue builds more than websites.
+                From Discord bots and mobile applications
+                to Windows software, web platforms and
+                complete dashboards, the goal is simple:
+                turn an idea into a working product.
+            </p>
+
+        </div>
+
+        <div class="reactor">
+
+            <div class="reactor-ring"></div>
+            <div class="reactor-ring"></div>
+            <div class="reactor-ring"></div>
+
+            <div class="reactor-core"></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="services">
+
+    <div class="services-header">
+
+        <div>
+
+            <div class="section-number">
+                002 — WHAT I BUILD
+            </div>
+
+            <h2 class="services-title">
+                DIGITAL<br>
+                <span>SYSTEMS.</span>
+            </h2>
+
+        </div>
+
+        <div class="services-count">
+            06 DEVELOPMENT DOMAINS
+        </div>
+
+    </div>
+
+
+    <div class="services-grid">
+
+        <div class="service-card featured">
+
+            <div class="card-number">
+                DOMAIN 01
+            </div>
+
+            <div class="card-icon">
+                WEB
+            </div>
+
+            <div class="orbit"></div>
+
+            <div class="card-content">
+
+                <div class="card-title">
+                    Web<br>
+                    Platforms
+                </div>
+
+                <div class="card-description">
+                    Modern websites, web applications and complete
+                    online platforms with custom interfaces,
+                    authentication, APIs and responsive experiences.
+                </div>
+
+                <div class="card-arrow">
+                    WEB DEVELOPMENT →
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <div class="card-number">
+                DOMAIN 02
+            </div>
+
+            <div class="card-icon">
+                DIS
+            </div>
+
+            <div class="card-content">
+
+                <div class="card-title">
+                    Discord<br>
+                    Systems
+                </div>
+
+                <div class="card-description">
+                    Custom Discord bots, moderation systems,
+                    verification flows, utility commands,
+                    automation and server management tools.
+                </div>
+
+                <div class="card-arrow">
+                    BOT DEVELOPMENT →
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <div class="card-number">
+                DOMAIN 03
+            </div>
+
+            <div class="card-icon">
+                APP
+            </div>
+
+            <div class="card-content">
+
+                <div class="card-title">
+                    Mobile<br>
+                    Apps
+                </div>
+
+                <div class="card-description">
+                    Mobile applications designed around real
+                    products, smooth interfaces and useful
+                    features rather than just simple demos.
+                </div>
+
+                <div class="card-arrow">
+                    MOBILE DEVELOPMENT →
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <div class="card-number">
+                DOMAIN 04
+            </div>
+
+            <div class="card-icon">
+                WIN
+            </div>
+
+            <div class="card-content">
+
+                <div class="card-title">
+                    Windows<br>
+                    Software
+                </div>
+
+                <div class="card-description">
+                    Desktop utilities, custom Windows applications,
+                    productivity tools and software built for
+                    everyday computer workflows.
+                </div>
+
+                <div class="card-arrow">
+                    DESKTOP DEVELOPMENT →
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <div class="card-number">
+                DOMAIN 05
+            </div>
+
+            <div class="card-icon">
+                UI
+            </div>
+
+            <div class="card-content">
+
+                <div class="card-title">
+                    Control<br>
+                    Dashboards
+                </div>
+
+                <div class="card-description">
+                    Admin panels, user dashboards, analytics
+                    interfaces, account systems and powerful
+                    control centers for digital products.
+                </div>
+
+                <div class="card-arrow">
+                    DASHBOARD SYSTEMS →
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <div class="card-number">
+                DOMAIN 06
+            </div>
+
+            <div class="card-icon">
+                API
+            </div>
+
+            <div class="card-content">
+
+                <div class="card-title">
+                    Full-Stack<br>
+                    Systems
+                </div>
+
+                <div class="card-description">
+                    Complete systems connecting frontend interfaces,
+                    backend logic, authentication, APIs, automation
+                    and data into one working product.
+                </div>
+
+                <div class="card-arrow">
+                    SYSTEM DEVELOPMENT →
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="experience">
+
+    <div class="section-number">
+        003 — EXPERIENCE
+    </div>
+
+    <h2 class="experience-title">
+        BUILT<br>
+        FOR REAL.
+    </h2>
+
+    <div class="experience-list">
+
+        <div class="experience-item">
+
+            <div class="experience-num">01</div>
+
+            <div class="experience-name">
+                DISCORD
+            </div>
+
+            <div class="experience-text">
+                Building custom bots and connected Discord
+                systems with commands, automation,
+                moderation, verification and server tools.
+            </div>
+
+        </div>
+
+
+        <div class="experience-item">
+
+            <div class="experience-num">02</div>
+
+            <div class="experience-name">
+                WEB
+            </div>
+
+            <div class="experience-text">
+                Developing complete websites and web platforms
+                with custom UI, backend systems, authentication,
+                APIs and responsive interfaces.
+            </div>
+
+        </div>
+
+
+        <div class="experience-item">
+
+            <div class="experience-num">03</div>
+
+            <div class="experience-name">
+                MOBILE
+            </div>
+
+            <div class="experience-text">
+                Creating mobile applications that connect
+                product ideas with practical features,
+                interfaces and backend services.
+            </div>
+
+        </div>
+
+
+        <div class="experience-item">
+
+            <div class="experience-num">04</div>
+
+            <div class="experience-name">
+                WINDOWS
+            </div>
+
+            <div class="experience-text">
+                Designing desktop software and Windows utilities
+                focused on useful workflows, automation and
+                custom functionality.
+            </div>
+
+        </div>
+
+
+        <div class="experience-item">
+
+            <div class="experience-num">05</div>
+
+            <div class="experience-name">
+                DASHBOARDS
+            </div>
+
+            <div class="experience-text">
+                Building control panels and dashboards that
+                bring accounts, analytics, management tools
+                and system controls into one interface.
+            </div>
+
+        </div>
+
+
+        <div class="experience-item">
+
+            <div class="experience-num">06</div>
+
+            <div class="experience-name">
+                FULL STACK
+            </div>
+
+            <div class="experience-text">
+                Connecting frontend, backend, APIs,
+                authentication and automation into complete
+                digital products.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="stack">
+
+    <div class="stack-header">
+
+        <div>
+
+            <div class="section-number">
+                004 — DEVELOPMENT MINDSET
+            </div>
+
+            <h2 class="stack-title">
+                BUILD.<br>
+                <span>CONNECT.</span>
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="stack-grid">
+
+        <div class="stack-item">
+            <div class="stack-index">01 / PRODUCT</div>
+            <div class="stack-name">Ideas → Products</div>
+            <div class="stack-description">
+                Turning concepts into functional digital products.
+            </div>
+        </div>
+
+        <div class="stack-item">
+            <div class="stack-index">02 / SYSTEMS</div>
+            <div class="stack-name">Connected Systems</div>
+            <div class="stack-description">
+                Making different services communicate together.
+            </div>
+        </div>
+
+        <div class="stack-item">
+            <div class="stack-index">03 / INTERFACE</div>
+            <div class="stack-name">Custom UI</div>
+            <div class="stack-description">
+                Interfaces designed around the product itself.
+            </div>
+        </div>
+
+        <div class="stack-item">
+            <div class="stack-index">04 / AUTOMATION</div>
+            <div class="stack-name">Automation</div>
+            <div class="stack-description">
+                Reducing repetitive work with intelligent systems.
+            </div>
+        </div>
+
+        <div class="stack-item">
+            <div class="stack-index">05 / BACKEND</div>
+            <div class="stack-name">Backend Logic</div>
+            <div class="stack-description">
+                Authentication, APIs, data and server-side logic.
+            </div>
+        </div>
+
+        <div class="stack-item">
+            <div class="stack-index">06 / EXPERIENCE</div>
+            <div class="stack-name">User Experience</div>
+            <div class="stack-description">
+                Making complex systems feel simple to use.
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="cta">
+
+    <div>
+
+        <div class="section-number">
+            005 — AORUE.DEV
+        </div>
+
+        <h2 class="cta-title">
+            <span>LET'S</span>
+            <span class="dim">BUILD.</span>
+        </h2>
+
+        <a
+            href="https://aoruedev.github.io/"
+            class="cta-button"
+        >
+            VIEW FULL PORTFOLIO →
+        </a>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <div>
+        AORUE.DEV
+    </div>
+
+    <div>
+        DESIGN / CODE / BUILD
+    </div>
+
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+
+window.addEventListener("load",function(){
+
+    setTimeout(function(){
+
+        document.getElementById("loader")
+            .classList.add("hide");
+
+    },2200);
+
+});
+
+
+const cursor =
+    document.getElementById("cursorGlow");
+
+let mouseX =
+    window.innerWidth / 2;
+
+let mouseY =
+    window.innerHeight / 2;
+
+let cursorX = mouseX;
+let cursorY = mouseY;
+
+window.addEventListener("mousemove",function(e){
+
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+});
+
+function cursorLoop(){
+
+    cursorX +=
+        (mouseX - cursorX) * .08;
+
+    cursorY +=
+        (mouseY - cursorY) * .08;
+
+    cursor.style.left =
+        cursorX + "px";
+
+    cursor.style.top =
+        cursorY + "px";
+
+    requestAnimationFrame(cursorLoop);
+
+}
+
+cursorLoop();
+
+
+const progress =
+    document.getElementById("progressFill");
+
+window.addEventListener("scroll",function(){
+
+    const max =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
+
+    const percent =
+        max > 0
+        ? window.scrollY / max * 100
+        : 0;
+
+    progress.style.height =
+        percent + "%";
+
+});
+
+
+document.querySelectorAll(".service-card").forEach(card => {
+
+    card.addEventListener("mousemove",function(e){
+
+        const rect =
+            card.getBoundingClientRect();
+
+        const x =
+            e.clientX - rect.left;
+
+        const y =
+            e.clientY - rect.top;
+
+        const centerX =
+            rect.width / 2;
+
+        const centerY =
+            rect.height / 2;
+
+        const rotateY =
+            (x - centerX) / 18;
+
+        const rotateX =
+            (centerY - y) / 18;
+
+        card.style.transform =
+            `perspective(1400px)
+             rotateX(${rotateX}deg)
+             rotateY(${rotateY}deg)
+             translateZ(10px)`;
+
+        card.style.setProperty(
+            "--mx",
+            x + "px"
+        );
+
+        card.style.setProperty(
+            "--my",
+            y + "px"
+        );
+
+    });
+
+    card.addEventListener("mouseleave",function(){
+
+        card.style.transform =
+            "perspective(1400px) rotateX(0deg) rotateY(0deg) translateZ(0)";
+
+    });
+
+});
+
+
+const container =
+    document.getElementById("three-bg");
+
+const scene =
+    new THREE.Scene();
+
+scene.fog =
+    new THREE.FogExp2(
+        0x050505,
+        .045
+    );
+
+
+const camera =
+    new THREE.PerspectiveCamera(
+        60,
+        window.innerWidth / window.innerHeight,
+        .1,
+        1000
+    );
+
+camera.position.z = 8;
+
+
+const renderer =
+    new THREE.WebGLRenderer({
+        antialias:true,
+        alpha:true,
+        powerPreference:"high-performance"
+    });
+
+renderer.setPixelRatio(
+    Math.min(window.devicePixelRatio,1.5)
+);
+
+renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+);
+
+container.appendChild(
+    renderer.domElement
+);
+
+
+const particleCount =
+    window.innerWidth < 700
+    ? 700
+    : 1500;
+
+const positions =
+    new Float32Array(
+        particleCount * 3
+    );
+
+const particleData = [];
+
+for(let i=0;i<particleCount;i++){
+
+    const radius =
+        4 + Math.random() * 15;
+
+    const angle =
+        Math.random() * Math.PI * 2;
+
+    const height =
+        (Math.random()-.5) * 12;
+
+    positions[i*3] =
+        Math.cos(angle) * radius;
+
+    positions[i*3+1] =
+        height;
+
+    positions[i*3+2] =
+        Math.sin(angle) * radius;
+
+    particleData.push({
+        angle,
+        radius,
+        speed:
+            .0002 +
+            Math.random() * .0006
+    });
+
+}
+
+
+const particleGeometry =
+    new THREE.BufferGeometry();
+
+particleGeometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(
+        positions,
+        3
+    )
+);
+
+
+const particleMaterial =
+    new THREE.PointsMaterial({
+        color:0xffffff,
+        size:
+            window.innerWidth < 700
+            ? .018
+            : .025,
+        transparent:true,
+        opacity:.45
+    });
+
+
+const particles =
+    new THREE.Points(
+        particleGeometry,
+        particleMaterial
+    );
+
+scene.add(particles);
+
+
+const objects = [];
+
+for(let i=0;i<14;i++){
+
+    const geometry =
+        new THREE.IcosahedronGeometry(
+            .15 + Math.random() * .35,
+            1
+        );
+
+    const material =
+        new THREE.MeshBasicMaterial({
+            color:0xffffff,
+            wireframe:true,
+            transparent:true,
+            opacity:.12
+        });
+
+    const mesh =
+        new THREE.Mesh(
+            geometry,
+            material
+        );
+
+    mesh.position.set(
+        (Math.random()-.5)*14,
+        (Math.random()-.5)*10,
+        (Math.random()-.5)*10
+    );
+
+    mesh.rotation.set(
+        Math.random()*Math.PI,
+        Math.random()*Math.PI,
+        Math.random()*Math.PI
+    );
+
+    mesh.userData = {
+        speed:
+            .001 +
+            Math.random()*.004
+    };
+
+    scene.add(mesh);
+
+    objects.push(mesh);
+
+}
+
+
+const grid =
+    new THREE.GridHelper(
+        80,
+        40,
+        0x444444,
+        0x222222
+    );
+
+grid.position.y = -5;
+
+grid.material.transparent = true;
+grid.material.opacity = .08;
+
+scene.add(grid);
+
+
+let targetX = 0;
+let targetY = 0;
+
+let smoothX = 0;
+let smoothY = 0;
+
+window.addEventListener(
+    "mousemove",
+    function(e){
+
+        targetX =
+            e.clientX /
+            window.innerWidth -
+            .5;
+
+        targetY =
+            e.clientY /
+            window.innerHeight -
+            .5;
+
+    }
+);
+
+
+let scrollTarget = 0;
+let scrollCurrent = 0;
+
+window.addEventListener(
+    "scroll",
+    function(){
+
+        const max =
+            document.body.scrollHeight -
+            window.innerHeight;
+
+        scrollTarget =
+            max > 0
+            ? window.scrollY / max
+            : 0;
+
+    }
+);
+
+
+let time = 0;
+
+function animate(){
+
+    time += .01;
+
+    smoothX +=
+        (targetX - smoothX) * .035;
+
+    smoothY +=
+        (targetY - smoothY) * .035;
+
+    scrollCurrent +=
+        (scrollTarget - scrollCurrent) * .04;
+
+
+    camera.position.x =
+        smoothX * 1.2;
+
+    camera.position.y =
+        -smoothY * .7;
+
+    camera.position.z =
+        8 -
+        scrollCurrent * 2.2;
+
+    camera.rotation.y =
+        smoothX * .08;
+
+    camera.rotation.x =
+        smoothY * .04;
+
+
+    const pos =
+        particleGeometry
+        .attributes
+        .position
+        .array;
+
+    for(let i=0;i<particleCount;i++){
+
+        const d =
+            particleData[i];
+
+        d.angle += d.speed;
+
+        pos[i*3] =
+            Math.cos(d.angle) *
+            d.radius;
+
+        pos[i*3+2] =
+            Math.sin(d.angle) *
+            d.radius;
+
+        pos[i*3+1] +=
+            Math.sin(time+i) *
+            .0004;
+
+    }
+
+    particleGeometry
+        .attributes
+        .position
+        .needsUpdate = true;
+
+
+    objects.forEach((obj,i)=>{
+
+        obj.rotation.x +=
+            obj.userData.speed;
+
+        obj.rotation.y +=
+            obj.userData.speed * 1.4;
+
+        obj.position.y +=
+            Math.sin(
+                time*.7+i
+            )*.0015;
+
+    });
+
+
+    grid.rotation.y =
+        smoothX*.04;
+
+
+    renderer.render(
+        scene,
+        camera
+    );
+
+    requestAnimationFrame(
+        animate
+    );
+
+}
+
+animate();
+
+
+window.addEventListener(
+    "resize",
+    function(){
+
+        camera.aspect =
+            window.innerWidth /
+            window.innerHeight;
+
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(
+            window.innerWidth,
+            window.innerHeight
+        );
+
+    }
+);
+
+</script>
+
+</body>
+</html>
+```
